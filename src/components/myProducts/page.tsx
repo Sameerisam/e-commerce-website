@@ -1,167 +1,179 @@
 "use client";
 
-
 import axios from "axios";
 import { useState, useEffect } from "react";
-
-import { Provider, useSelector } from "react-redux";
-import { store } from "@/redux/store";
+import { useSelector, useDispatch } from "react-redux";
 import Link from "next/link";
+import { motion } from "framer-motion";
+import { ShoppingCart, Eye, Star, ArrowRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { addCart } from "@/redux/slices/add_To_Cart/page";
 
+type Product = {
+  _id: string;
+  title: string;
+  price: number;
+  description: string;
+  category: string;
+  image: string;
+  rating?: {
+    rate: number;
+    count: number;
+  };
+};
 
-export default function AllProducts() {
-  return <MyProducts />
-}
-
-
-function MyProducts() {
-
-  type Product = {
-    _id: string; // Internal ID
-    id: number; // For compatibility if needed
-    title: string;
-    price: number;
-    description: string;
-    category: string;
-    image: string;
-  }
+export default function MyProducts() {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
-
-  const searchQuery = useSelector((state: any) => state.searching.query)
-
+  const dispatch = useDispatch();
+  const searchQuery = useSelector((state: any) => state.searching.query);
 
   useEffect(() => {
     setLoading(true);
     axios.get<Product[]>("/api/products")
       .then((resp) => {
-        console.log("Real products loaded:", resp.data);
         setProducts(resp.data);
-        setLoading(false);
       })
       .catch((err) => {
         console.error("Error fetching products:", err);
+      })
+      .finally(() => {
         setLoading(false);
       });
-  }, [])
-
+  }, []);
 
   const filteredProducts = products.filter((p) => {
-    return p.title.toLowerCase().includes(searchQuery.toLowerCase())
-  })
+    return p.title.toLowerCase().includes(searchQuery.toLowerCase());
+  });
+
+  const handleAddToCart = (product: Product, e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    dispatch(addCart({
+      id: product._id,
+      title: product.title,
+      price: product.price,
+      image: product.image,
+      category: product.category,
+      quantity: 1
+    }));
+  };
 
   if (loading) {
     return (
-      <div className="container py-5">
-        <div className="d-flex justify-content-center align-items-center" style={{ minHeight: "400px" }}>
-          <div className="text-center">
-            <div className="spinner-border text-primary" role="status" style={{ width: "3rem", height: "3rem" }}>
-
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+        {[...Array(8)].map((_, i) => (
+          <div key={i} className="animate-pulse bg-slate-50 rounded-3xl border border-slate-100 overflow-hidden aspect-[3/4]">
+            <div className="h-48 bg-slate-100 mb-4" />
+            <div className="px-6 space-y-3">
+              <div className="h-4 w-2/3 bg-slate-100 rounded" />
+              <div className="h-4 w-1/2 bg-slate-100 rounded" />
+              <div className="h-10 w-full bg-slate-100 rounded-xl mt-6" />
             </div>
-            <p className="mt-3 text-muted">Loading products...</p>
           </div>
-        </div>
+        ))}
       </div>
     );
   }
 
-  return <>
+  return (
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+      {filteredProducts.map((product, index) => (
+        <motion.div
+          key={product._id}
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: index * 0.05 }}
+          viewport={{ once: true }}
+          className={`group relative rounded-3xl border border-slate-100 overflow-hidden transition-all duration-500 hover:-translate-y-2 flex flex-col ${
+            product.category === "jewelery" ? "card-luxury" : 
+            product.category === "electronics" ? "card-tech" : 
+            "card-lifestyle bg-white"
+          }`}
+        >
+          {/* Badge */}
+          <div className="absolute top-4 left-4 z-10 flex flex-col gap-2">
+            <Badge className="bg-white/80 backdrop-blur-md text-slate-900 border-none px-3 py-1 text-[10px] font-bold uppercase tracking-wider rounded-full shadow-sm">
+              {product.category}
+            </Badge>
+          </div>
 
-    <div className="container py-5">
-      <h2 className="text-center mb-4 fw-bold">Our Products</h2>
-      <div className="row g-4">
-        {
-          filteredProducts.map((product) => (
-            <div key={product._id} className="col-sm-6 col-md-4">
-              <div className="card product-card h-100">
-                <img src={product.image} className="card-image-top"
-                  alt={product.title}
-                  style={{ height: "230px", objectFit: "contain" }}>
-                </img>
-                <div className="card-body text-center">
-                  <h6 className="card-title text-truncate">{product.title}</h6>
-                  <p className="price fw-semibold text-primary mb-2">
-                    ${product.price}
-                  </p>
-                  <Link
-                    href={`/detail_page/${product._id}`}
-                    className="btn btn-primary w-100 d-flex align-items-center justify-content-center btn-card mt-3"
-                  >
-                    View Details
-                    <svg
-                      aria-hidden="true"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 14 10"
-                      width="16"
-                      height="16"
-                      className="ms-2"
-                    >
-                      <path
-                        d="M1 5h12m0 0L9 1m4 4L9 9"
-                        stroke="currentColor"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                      />
-                    </svg>
-                  </Link>
-
-                </div>
-              </div>
+          {/* Image Container */}
+          <div className="relative h-64 overflow-hidden bg-slate-50 flex items-center justify-center p-8 group">
+            <Link href={`/detail_page/${product._id}`} className="absolute inset-0 flex items-center justify-center p-8">
+              <motion.img
+                src={product.image}
+                alt={product.title}
+                className="max-h-full object-contain mix-blend-multiply transition-transform duration-700 group-hover:scale-110"
+                loading="lazy"
+              />
+            </Link>
+            
+            {/* Quick Actions Overlay */}
+            <div className="absolute inset-x-0 bottom-0 p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-500 flex justify-center gap-2 z-20">
+              <Button
+                size="icon"
+                variant="secondary"
+                className="rounded-full h-12 w-12 bg-white/90 backdrop-blur-sm shadow-xl hover:bg-primary hover:text-white transition-all transform hover:scale-110 active:scale-95"
+                onClick={(e) => handleAddToCart(product, e)}
+              >
+                <ShoppingCart size={20} />
+              </Button>
+              <Button
+                size="icon"
+                variant="secondary"
+                className="rounded-full h-12 w-12 bg-white/90 backdrop-blur-sm shadow-xl hover:bg-primary hover:text-white transition-all transform hover:scale-110 active:scale-95"
+                asChild
+              >
+                <Link href={`/detail_page/${product._id}`}>
+                  <Eye size={20} />
+                </Link>
+              </Button>
             </div>
-          )
+          </div>
 
-          )
-        }
-      </div>
-      <style jsx>{`
-.product-card { transition: transform 0.2s ease, box-shadow 0.2s ease;
- }
- .product-card:hover { transform: translateY(-5px);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15); }
-  :global(.btn-card) {
-    position: relative;
-    overflow: hidden;
-    color: #fff;
-    background-color: #198754;
-    border: none;
-    transition: all 0.3s ease;
-  }
+          {/* Content */}
+          <div className="p-6 flex flex-col flex-grow">
+            <div className="flex items-center gap-2 mb-2">
+              <div className="flex text-amber-400">
+                <Star size={12} fill="currentColor" />
+                <Star size={12} fill="currentColor" />
+                <Star size={12} fill="currentColor" />
+                <Star size={12} fill="currentColor" />
+                <Star size={12} fill="currentColor" className="text-slate-200" />
+              </div>
+              <span className="text-[10px] text-slate-400 font-bold uppercase">(128 reviews)</span>
+            </div>
 
-  :global(.btn-card::before) {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(
-      120deg,
-      transparent,
-      rgba(255, 255, 255, 0.4),
-      transparent
-    );
-    transition: all 0.4s ease;
-  }
+            <Link href={`/detail_page/${product._id}`} className="block mb-2">
+              <h3 className={`font-bold leading-tight transition-colors line-clamp-2 min-h-[3rem] ${
+                product.category === "jewelery" ? "text-white group-hover:text-jewelry-gold" : "text-foreground group-hover:text-primary"
+              }`}>
+                {product.title}
+              </h3>
+            </Link>
 
-  :global(.btn-card:hover) {
-    transform: translateY(-3px);
-    box-shadow: 0 6px 15px rgba(25, 135, 84, 0.4);
-  }
-
-  :global(.btn-card:hover::before) {
-    left: 100%;
-  }
-
-  :global(.btn-card:active) {
-    transform: scale(0.97);
-  }
-`}</style>
-
-
-
+            <div className="mt-auto pt-4 flex items-center justify-between">
+              <div>
+                <span className="text-slate-400 text-xs font-semibold line-through mr-2">$ {(product.price * 1.25).toFixed(2)}</span>
+                <span className={`text-xl font-black ${
+                  product.category === "jewelery" ? "text-jewelry-gold" : "text-price-tag"
+                }`}>${product.price.toFixed(2)}</span>
+              </div>
+              <Link
+                href={`/detail_page/${product._id}`}
+                className={`text-xs font-bold flex items-center gap-1 group/btn ${
+                  product.category === "jewelery" ? "text-jewelry-gold" : "text-slate-800"
+                }`}
+              >
+                Details
+                <ArrowRight size={14} className="group-hover/btn:translate-x-1 transition-transform" />
+              </Link>
+            </div>
+          </div>
+        </motion.div>
+      ))}
     </div>
-
-  </>
+  );
 }

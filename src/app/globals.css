@@ -5,46 +5,94 @@
 @custom-variant dark (&:is(.dark *));
 
 /* globals.css */
-header {
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-  background-color: white;
+@layer base {
+  body {
+    @apply overflow-x-hidden transition-colors duration-300;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  @apply bg-slate-50;
+}
+::-webkit-scrollbar-thumb {
+  @apply bg-slate-200 rounded-full hover:bg-slate-300 transition-colors;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  @apply bg-slate-200 rounded-full;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-20px); }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
 }
 
 :root {
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.58 0.22 27);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.809 0.105 251.813);
-  --chart-2: oklch(0.623 0.214 259.815);
-  --chart-3: oklch(0.546 0.245 262.881);
-  --chart-4: oklch(0.488 0.243 264.376);
-  --chart-5: oklch(0.424 0.199 265.638);
-  --radius: 0.625rem;
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  /* Core Foundation */
+  --background: #F8FAFC;
+  --foreground: #1E293B;
+  --card: #FFFFFF;
+  --card-foreground: #1E293B;
+  --popover: #FFFFFF;
+  --popover-foreground: #1E293B;
+  --primary: #4F46E5;
+  --primary-foreground: #FFFFFF;
+  --secondary: #F1F5F9;
+  --secondary-foreground: #475569;
+  --muted: #F1F5F9;
+  --muted-foreground: #64748B;
+  --accent: #F1F5F9;
+  --accent-foreground: #1E293B;
+  --destructive: #EF4444;
+  --border: #E2E8F0;
+  --input: #E2E8F0;
+  --ring: #4F46E5;
+  --radius: 0.75rem;
+
+  /* Commerce Specific */
+  --price-tag: #059669;
+  --sale-badge: #E11D48;
+
+  /* Category: Clothing & Apparel */
+  --clothing-bg: #F9FAFB;
+  --clothing-text: #374151;
+  --clothing-accent: #E11D48;
+  --clothing-gradient: linear-gradient(120deg, #FDFBFB 0%, #EBEDEE 100%);
+
+  /* Category: Electronics */
+  --electronics-bg: #F1F5F9;
+  --electronics-primary: #2563EB;
+  --electronics-secondary: #64748B;
+  --electronics-gradient: linear-gradient(to right, #2563EB, #3B82F6);
+  --electronics-shadow: 0 20px 25px -5px rgba(37, 99, 235, 0.1), 0 10px 10px -5px rgba(37, 99, 235, 0.04);
+
+  /* Category: Jewelry & Luxury */
+  --jewelry-bg: #0F172A;
+  --jewelry-card-bg: linear-gradient(145deg, #1E293B, #0F172A);
+  --jewelry-gold: #D4AF37;
+  --jewelry-silver: #E5E7EB;
+  --jewelry-text: #F8FAFC;
+
+  /* Button & Interactive Enhancements */
+  --button-gradient: linear-gradient(135deg, #6366f1 0%, #4f46e5 50%, #4338ca 100%);
+  --button-gradient-hover: linear-gradient(135deg, #4f46e5 0%, #4338ca 50%, #3730a3 100%);
+  --button-radius: 1rem;
+  --button-shadow: 0 10px 15px -3px rgba(79, 70, 229, 0.3), 0 4px 6px -4px rgba(79, 70, 229, 0.3);
+  --button-shadow-hover: 0 20px 25px -5px rgba(79, 70, 229, 0.4), 0 8px 10px -6px rgba(79, 70, 229, 0.4);
 }
 
 .dark {
@@ -82,45 +130,78 @@ header {
 }
 
 @theme inline {
-  --font-sans: var(--font-sans);
-  --color-sidebar-ring: var(--sidebar-ring);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar: var(--sidebar);
-  --color-chart-5: var(--chart-5);
-  --color-chart-4: var(--chart-4);
-  --color-chart-3: var(--chart-3);
-  --color-chart-2: var(--chart-2);
-  --color-chart-1: var(--chart-1);
-  --color-ring: var(--ring);
-  --color-input: var(--input);
-  --color-border: var(--border);
-  --color-destructive: var(--destructive);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-accent: var(--accent);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-muted: var(--muted);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-secondary: var(--secondary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-primary: var(--primary);
-  --color-popover-foreground: var(--popover-foreground);
-  --color-popover: var(--popover);
-  --color-card-foreground: var(--card-foreground);
-  --color-card: var(--card);
-  --color-foreground: var(--foreground);
   --color-background: var(--background);
-  --radius-sm: calc(var(--radius) * 0.6);
-  --radius-md: calc(var(--radius) * 0.8);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  
+  /* Category Specific */
+  --color-jewelry-gold: var(--jewelry-gold);
+  --color-electronics-blue: var(--electronics-primary);
+  --color-clothing-accent: var(--clothing-accent);
+  --color-price-tag: var(--price-tag);
+
   --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) * 1.4);
-  --radius-2xl: calc(var(--radius) * 1.8);
-  --radius-3xl: calc(var(--radius) * 2.2);
-  --radius-4xl: calc(var(--radius) * 2.6);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-button: var(--button-radius);
+
+  /* Button Gradients */
+  --btn-primary-gradient: var(--button-gradient);
+  --btn-secondary-gradient: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+}
+
+@layer components {
+  .category-jewelry {
+    @apply bg-[var(--jewelry-bg)] text-[var(--jewelry-text)];
+  }
+  .category-electronics {
+    @apply bg-[var(--electronics-bg)] text-slate-900;
+  }
+  .category-clothing {
+    @apply bg-[var(--clothing-bg)] text-[var(--clothing-text)];
+  }
+
+  /* Luxury Card for Jewelry */
+  .card-luxury {
+    background: var(--jewelry-card-bg);
+    border: 1px solid var(--jewelry-gold);
+    @apply shadow-2xl;
+  }
+
+  /* Futuristic Card for Electronics */
+  .card-tech {
+    @apply bg-white border border-slate-100;
+    box-shadow: var(--electronics-shadow);
+  }
+
+  /* Minimal Card for Clothing */
+  .card-lifestyle {
+    @apply bg-white border-none shadow-sm hover:shadow-md transition-shadow;
+  }
+  
+  .btn-gradient-electronics {
+    background: var(--electronics-gradient);
+    @apply text-white border-none;
+  }
+
+  .banner-clothing {
+    background: var(--clothing-gradient);
+  }
 }
 
 @layer base {

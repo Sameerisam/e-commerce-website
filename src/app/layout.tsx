@@ -12,7 +12,7 @@ const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={cn("font-sans", geist.variable)}>
+    <html lang="en" suppressHydrationWarning className={cn("font-sans", geist.variable)}>
       <head>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" />
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" async />
@@ -21,7 +21,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <ReduxProvider>
           <Header />
-          <main>
+          <main className="pt-[6rem]">
             {children}
           </main>
           <ConditionalFooter />

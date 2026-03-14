@@ -6,9 +6,34 @@ import Product from "@/services/db/models/product";
 export async function GET() {
   try {
     await dbConnect();
-    const products = await Product.find({}).sort({ createdAt: -1 });
+    let products = await Product.find({}).sort({ createdAt: -1 });
+
+    // If no products in DB, fetch from FakeStoreAPI and seed
+    if (products.length === 0) {
+      console.log("Seeding products from FakeStoreAPI...");
+      const response = await fetch("https://fakestoreapi.com/products");
+      const fakeProducts = await response.json();
+
+      const formattedProducts = fakeProducts.map((p: any) => ({
+        title: p.title,
+        description: p.description,
+        price: p.price,
+        category: p.category,
+        image: p.image,
+        stock: Math.floor(Math.random() * 100) + 1,
+        rating: {
+          rate: p.rating?.rate || 0,
+          count: p.rating?.count || 0
+        }
+      }));
+
+      await Product.insertMany(formattedProducts);
+      products = await Product.find({}).sort({ createdAt: -1 });
+    }
+
     return NextResponse.json(products);
   } catch (error: any) {
+    console.error("API Error:", error);
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }

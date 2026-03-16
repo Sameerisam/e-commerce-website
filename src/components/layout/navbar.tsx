@@ -3,21 +3,14 @@
 import { useRouter, usePathname } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import Link from "next/link";
+import { NextLink } from "../ui/next-link";
 import axios from "axios";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  ShoppingCart,
   User,
   Menu,
   X,
   LogOut,
-  ChevronDown,
-  Phone,
-  Mail,
-  Instagram,
-  Facebook,
-  Twitter,
   Home as HomeIcon,
   ShoppingBag as BagIcon,
   Search as SearchIcon,
@@ -33,7 +26,7 @@ import type { RootState } from "@/redux/store";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -50,7 +43,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 
-export default function Header() {
+export function Navbar() {
   const router = useRouter();
   const pathname = usePathname();
   const dispatch = useDispatch();
@@ -63,7 +56,7 @@ export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
 
-  const showSearch = pathname === "/";
+  const showSearch = pathname === "/" || pathname === "/products";
   const hideCart = pathname === "/login" || pathname === "/signUp";
 
   useEffect(() => {
@@ -121,17 +114,17 @@ export default function Header() {
             : "bg-white/10 backdrop-blur-xl border border-white/10 rounded-[2rem] shadow-sm"
           }`}>
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2 group shrink-0">
+          <NextLink href="/" className={`items-center gap-2 group shrink-0 ${isSearchOpen ? "hidden sm:flex" : "flex"}`}>
             <div className="w-9 h-9 bg-primary rounded-full flex items-center justify-center text-white shadow-lg group-hover:rotate-12 transition-transform">
               <BagIcon size={18} strokeWidth={2.5} />
             </div>
             <span className="text-xl font-black tracking-tighter text-slate-900">
               MY<span className="text-primary">STORE.</span>
             </span>
-          </Link>
+          </NextLink>
 
           {/* Centered Navigation or Inline Search */}
-          <div className="flex-1 max-w-2xl px-8 hidden lg:flex items-center justify-center">
+          <div className={`flex-1 max-w-2xl px-4 lg:px-8 flex items-center justify-center ${isSearchOpen ? "flex" : "hidden lg:flex"}`}>
             <AnimatePresence mode="wait">
               {!isSearchOpen ? (
                 <motion.nav
@@ -146,7 +139,7 @@ export default function Header() {
                     const Icon = link.icon;
                     const isActive = pathname === link.href;
                     return (
-                      <Link
+                      <NextLink
                         key={link.label}
                         href={link.href}
                         className={`flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all hover:bg-white hover:text-primary hover:shadow-sm ${isActive ? "bg-white text-primary shadow-sm" : "text-slate-600"
@@ -154,7 +147,7 @@ export default function Header() {
                       >
                         <Icon size={14} strokeWidth={isActive ? 2.5 : 2} />
                         {link.label}
-                      </Link>
+                      </NextLink>
                     );
                   })}
                 </motion.nav>
@@ -189,7 +182,7 @@ export default function Header() {
           </div>
 
           {/* Actions */}
-          <div className="flex items-center gap-3 shrink-0">
+          <div className={`items-center gap-3 shrink-0 ${isSearchOpen ? "hidden sm:flex" : "flex"}`}>
             <div className="flex items-center gap-1">
               {showSearch && (
                 <Button
@@ -202,11 +195,17 @@ export default function Header() {
                 </Button>
               )}
 
-              {isLoggedIn && (
+              {isLoggedIn ? (
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" size="icon" className="rounded-full w-10 h-10 hover:bg-slate-200/50">
-                      <User className="w-5 h-5 text-slate-700" />
+                    <Button variant="ghost" size="icon" className="rounded-full w-10 h-10 hover:bg-slate-200/50 p-0 overflow-hidden border border-slate-100">
+                      {user?.image ? (
+                        <img src={user.image} alt={user.name} className="w-full h-full object-cover" />
+                      ) : (
+                        <div className="w-full h-full bg-primary/10 flex items-center justify-center text-primary font-bold text-xs">
+                          {user?.name?.charAt(0).toUpperCase() || <User size={18} />}
+                        </div>
+                      )}
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end" className="w-56 p-2 rounded-2xl border-slate-100 shadow-2xl">
@@ -225,13 +224,19 @@ export default function Header() {
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
+              ) : (
+                !hideCart && (
+                  <Button asChild variant="ghost" className="hidden sm:flex rounded-full px-5 text-sm font-bold text-slate-600 hover:text-primary hover:bg-primary/5 transition-all">
+                    <NextLink href="/login">Login</NextLink>
+                  </Button>
+                )
               )}
             </div>
 
             <div className="w-[1px] h-6 bg-slate-200" />
 
             {!hideCart && (
-              <Link href="/cart_Products" className="relative group">
+              <NextLink href="/cart_Products" className="relative group">
                 <div className="w-10 h-10 bg-slate-900 rounded-full flex items-center justify-center text-white transition-all group-hover:scale-110 group-active:scale-95 shadow-lg">
                   <BagIcon className="w-4 h-4" strokeWidth={2.5} />
                 </div>
@@ -240,7 +245,7 @@ export default function Header() {
                     {cart.length}
                   </span>
                 )}
-              </Link>
+              </NextLink>
             )}
 
             {/* Mobile Menu */}
@@ -262,7 +267,7 @@ export default function Header() {
                     {navLinks.map((link) => {
                       const Icon = link.icon;
                       return (
-                        <Link
+                        <NextLink
                           key={link.label}
                           href={link.href}
                           className="flex items-center gap-4 p-4 rounded-2xl bg-white border border-slate-100 shadow-sm text-slate-700 font-bold transition-all active:scale-95"
@@ -271,15 +276,17 @@ export default function Header() {
                             <Icon size={20} />
                           </div>
                           {link.label}
-                        </Link>
+                        </NextLink>
                       );
                     })}
                   </div>
                   <div className="mt-auto p-8 border-t border-white/20">
                     {!isLoggedIn ? (
-                      <Button asChild className="w-full bg-slate-900 hover:bg-slate-800 rounded-2xl py-7 text-lg font-black shadow-xl shadow-slate-200 transition-all active:scale-95">
-                        <Link href="/login">Sign In</Link>
-                      </Button>
+                      !hideCart && (
+                        <Button asChild className="w-full bg-slate-900 hover:bg-slate-800 rounded-2xl py-7 text-lg font-black shadow-xl shadow-slate-200 transition-all active:scale-95">
+                          <NextLink href="/login">Sign In</NextLink>
+                        </Button>
+                      )
                     ) : (
                       <Button variant="outline" className="w-full rounded-2xl py-7 text-lg font-bold border-2" onClick={handleLogout}>
                         Log Out

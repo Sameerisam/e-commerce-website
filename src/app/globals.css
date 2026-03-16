@@ -32,15 +32,6 @@
   @apply bg-slate-200 rounded-full;
 }
 
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-20px); }
-}
-
-.animate-float {
-  animation: float 6s ease-in-out infinite;
-}
-
 :root {
   /* Core Foundation */
   --background: #F8FAFC;
@@ -163,6 +154,15 @@
   /* Button Gradients */
   --btn-primary-gradient: var(--button-gradient);
   --btn-secondary-gradient: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+
+  /* Custom Animations */
+  --animate-float: float 6s ease-in-out infinite;
+
+  @keyframes float {
+    0% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-20px) rotate(2deg); }
+    100% { transform: translateY(0px) rotate(0deg); }
+  }
 }
 
 @layer components {

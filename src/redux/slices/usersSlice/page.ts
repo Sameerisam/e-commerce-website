@@ -5,6 +5,7 @@ type User = {
   token: string;
   name: string;
   role: string;
+  image?: string | null;
 };
 type UserState = {
   user: User | null;

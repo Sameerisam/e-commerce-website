@@ -6,7 +6,7 @@ export function NewsletterSection() {
   return (
     <section className="py-24">
       <div className="container mx-auto px-4">
-        <div className="bg-indigo-600 rounded-[50px] p-12 md:p-24 text-center text-white relative overflow-hidden">
+        <div className="bg-indigo-600 rounded-[50px] p-8 md:p-16 text-center text-white relative overflow-hidden">
           <div className="absolute top-0 left-0 w-full h-full bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10" />
 
           <MotionDiv

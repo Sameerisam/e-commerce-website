@@ -1,6 +1,5 @@
 
 import { Sparkles } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { MotionDiv } from "../ui/motions";
 
 export function AboutHero() {

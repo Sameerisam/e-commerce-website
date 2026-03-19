@@ -2,16 +2,6 @@ import { NextResponse } from "next/server";
 import dbConnect from "@/services/db/connection";
 import Order from "@/services/db/models/order";
 
-// GET all orders (Admin use)
-export async function GET() {
-  try {
-    await dbConnect();
-    const orders = await Order.find({}).sort({ createdAt: -1 });
-    return NextResponse.json(orders);
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
-  }
-}
 
 // POST a new order
 export async function POST(req: Request) {
@@ -28,16 +18,27 @@ export async function POST(req: Request) {
       paymentStatus,
     } = body;
 
-    if (!userEmail || !items || !totalAmount || !shippingAddress) {
+    if (!userEmail || !items || !Array.isArray(items) || items.length === 0 || !totalAmount || !shippingAddress) {
+      console.error("Missing required order fields:", { userEmail, itemsCount: items?.length, totalAmount, hasShippingAddress: !!shippingAddress });
       return NextResponse.json(
         { error: "Missing required order fields" },
         { status: 400 },
       );
     }
 
+    console.log("Mapping items and creating order for:", userEmail);
+
+    const mappedItems = items.map((item: any) => ({
+      productId: item.productId || item.id || item._id, // Try all possible ID fields
+      title: item.title,
+      price: item.price,
+      quantity: item.quantity || 1,
+      image: item.image,
+    }));
+
     const newOrder = await Order.create({
       userEmail,
-      items,
+      items: mappedItems,
       totalAmount,
       shippingAddress,
       paymentMethod,
@@ -45,8 +46,10 @@ export async function POST(req: Request) {
       orderStatus: "Processing",
     });
 
+    console.log("Order created successfully:", newOrder._id);
     return NextResponse.json(newOrder, { status: 201 });
   } catch (error: any) {
+    console.error("Order Creation Error:", error);
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }

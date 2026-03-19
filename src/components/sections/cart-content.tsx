@@ -73,8 +73,8 @@ export function CartContent() {
     );
 
     return (
-        <div className="bg-slate-50 min-h-screen pt-24 pb-20">
-            <div className="container mx-auto px-4">
+        <section className="min-h-screen flex items-center overflow-hidden mt-[-6rem] pt-24" style={{ background: 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)' }}>
+            <div className="container mx-auto px-4 py-12">
                 {/* Header */}
                 <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
                     <div className="space-y-2">
@@ -204,7 +204,7 @@ export function CartContent() {
                                     <span className="text-4xl font-black text-indigo-600 tracking-tighter">${total.toFixed(2)}</span>
                                 </div>
 
-                                <Button asChild className="w-full h-16 rounded-2xl bg-indigo-600 hover:bg-indigo-700 text-lg font-bold shadow-xl shadow-indigo-100 gap-2 transition-all hover:-translate-y-1 active:scale-95">
+                                <Button asChild className="w-full h-16 rounded-2xl bg-indigo-300 hover:bg-indigo-700 text-lg font-bold shadow-xl text-black shadow-indigo-100 gap-2 transition-all hover:-translate-y-1 active:scale-95">
                                     <Link href="/delivery_Information" onClick={() => dispatch(setBuyNowItem(null))}>
                                         Proceed Checkout <ChevronRight size={20} />
                                     </Link>
@@ -221,7 +221,7 @@ export function CartContent() {
                                                 <item.icon size={20} />
                                             </div>
                                             <div>
-                                                <h4 className="text-xs font-black text-slate-900 uppercase tracking-wider">{item.text}</h4>
+                                                <h4 className="text-xs font-black text-black uppercase tracking-wider">{item.text}</h4>
                                                 <p className="text-[10px] text-slate-400 font-bold uppercase">{item.desc}</p>
                                             </div>
                                         </div>
@@ -233,6 +233,6 @@ export function CartContent() {
                 )}
             </div>
             <ToastContainer />
-        </div>
+        </section>
     );
 }

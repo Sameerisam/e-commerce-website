@@ -5,11 +5,12 @@ import Product from "@/services/db/models/product";
 // GET a single product
 export async function GET(
   req: Request,
-  { params }: { params: { id: string } },
+  { params }: { params: Promise<{ id: string }> },
 ) {
+  const { id } = await params;
   try {
     await dbConnect();
-    const product = await Product.findById(params.id);
+    const product = await Product.findById(id);
     if (!product) {
       return NextResponse.json({ error: "Product not found" }, { status: 404 });
     }
@@ -22,12 +23,13 @@ export async function GET(
 // UPDATE a product
 export async function PUT(
   req: Request,
-  { params }: { params: { id: string } },
+  { params }: { params: Promise<{ id: string }> },
 ) {
+  const { id } = await params;
   try {
     await dbConnect();
     const body = await req.json();
-    const updatedProduct = await Product.findByIdAndUpdate(params.id, body, {
+    const updatedProduct = await Product.findByIdAndUpdate(id, body, {
       new: true,
       runValidators: true,
     });
@@ -45,11 +47,12 @@ export async function PUT(
 // DELETE a product
 export async function DELETE(
   req: Request,
-  { params }: { params: { id: string } },
+  { params }: { params: Promise<{ id: string }> },
 ) {
+  const { id } = await params;
   try {
     await dbConnect();
-    const deletedProduct = await Product.findByIdAndDelete(params.id);
+    const deletedProduct = await Product.findByIdAndDelete(id);
 
     if (!deletedProduct) {
       return NextResponse.json({ error: "Product not found" }, { status: 404 });

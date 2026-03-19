@@ -83,7 +83,7 @@ export function AboutSections() {
       </section>
 
       {/* Closing CTA */}
-      <section className="bg-slate-900 rounded-[60px] p-20 text-center relative overflow-hidden">
+      <section className="bg-slate-900 rounded-[60px] p-8 md:p-16 text-center relative overflow-hidden">
          <div className="absolute top-0 right-0 w-[40%] h-full bg-indigo-600/20 skew-x-12 translate-x-1/2" />
          <div className="relative z-10 space-y-8">
             <h2 className="text-4xl md:text-6xl font-black text-white leading-tight max-w-4xl mx-auto">

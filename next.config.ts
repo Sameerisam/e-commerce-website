@@ -12,6 +12,18 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "www.transparenttextures.com",
       },
+      {
+        protocol: "https",
+        hostname: "fakestoreapi.com",
+      },
+      {
+        protocol: "https",
+        hostname: "i.pravatar.cc",
+      },
+      {
+        protocol: "https",
+        hostname: "img.icons8.com",
+      },
     ],
   },
   reactCompiler: true,

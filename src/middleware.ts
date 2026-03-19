@@ -19,13 +19,6 @@ export async function middleware(request: any) {
     const { payload }: any = await jwtVerify(token, secret);
     console.log("Token valid. Payload:", payload);
 
-    // Admin protection
-    if (request.nextUrl.pathname.startsWith("/admin")) {
-      if (payload.role !== "admin") {
-        return NextResponse.redirect(new URL("/", request.url));
-      }
-    }
-
     return NextResponse.next();
   } catch (error: any) {
     console.error("Invalid or expired token:", error.message);
@@ -37,6 +30,5 @@ export const config = {
   matcher: [
     "/cart_Products/:path*",
     "/delivery_Information/:path*",
-    "/admin/:path*",
   ],
 };

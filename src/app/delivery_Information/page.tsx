@@ -74,19 +74,20 @@ export default function DeliveryInformation() {
     dispatch(setShippingInfo(formData));
 
     setTimeout(() => {
-      router.push(`/payment_method?amount=${totalAmount}`);
+      router.push(`/payment_method?amount=${totalAmount.toFixed(2)}`);
     }, 500);
   };
 
   return (
-    <div className="bg-slate-50 min-h-screen pt-24 pb-20">
-      <div className="container mx-auto px-4">
+    <section className="min-h-screen flex items-center overflow-hidden mt-[-6rem] pt-24" style={{ background: 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)' }}>
+
+      <div className="container mx-auto px-4 py-20">
         {/* Progress Header */}
-        <div className="max-w-4xl mx-auto mb-10 flex items-center justify-between px-4">
+        <div className="max-w-4xl mx-auto mb-10 flex items-center justify-between px-0 md:px-4">
           <Link href="/cart_Products" className="text-slate-400 hover:text-indigo-600 font-bold text-xs uppercase tracking-widest flex items-center gap-2 transition-all">
             <ChevronLeft size={16} /> Back to Bag
           </Link>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-0 md:gap-4">
             <div className="flex items-center gap-2">
               <div className="w-6 h-6 rounded-full bg-indigo-600 text-white flex items-center justify-center text-[10px] font-bold">1</div>
               <span className="text-[10px] font-black uppercase tracking-widest text-slate-900">Delivery</span>
@@ -199,7 +200,7 @@ export default function DeliveryInformation() {
                 <Button
                   type="submit"
                   disabled={loading || displayItems.length === 0}
-                  className="w-full h-16 rounded-2xl bg-indigo-600 hover:bg-indigo-700 text-lg font-bold shadow-xl shadow-indigo-100 gap-2 transition-all hover:-translate-y-1 active:scale-95 disabled:opacity-70"
+                  className="w-full h-16 rounded-2xl text-sm md:text-lg bg-indigo-600 hover:bg-indigo-700 text-lg  font-semibold md:font-bold shadow-xl shadow-indigo-100 gap-2 transition-all hover:-translate-y-1 active:scale-95 disabled:opacity-70"
                 >
                   {loading ? "Processing..." : <>Review Payment Options <ArrowRight size={20} /></>}
                 </Button>
@@ -285,6 +286,6 @@ export default function DeliveryInformation() {
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 }

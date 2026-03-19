@@ -37,16 +37,16 @@ export function ProductList() {
             <h2 className="text-4xl md:text-5xl font-black text-slate-900 tracking-tight">Browse Our Collection</h2>
           </div>
           
-          <div className="flex flex-wrap gap-3">
+          <div className="grid grid-cols-2 xs:grid-cols-3 sm:flex sm:flex-wrap gap-2 sm:gap-3 w-full sm:w-auto">
             {["All Items", "Electronics", "Jewelry", "Men's Clothing", "Women's Clothing"].map((cat) => (
               <button
                 key={cat}
                 onClick={() => setActiveTab(cat)}
-                className={`px-7 py-3 rounded-2xl text-xs font-black uppercase tracking-widest transition-all duration-300 ${
+                className={`px-3 sm:px-7 py-2.5 sm:py-3 rounded-[18px] sm:rounded-2xl text-[10px] sm:text-xs font-black uppercase tracking-[0.15em] transition-all duration-300 active:scale-95 text-center ${
                   activeTab === cat 
-                  ? "bg-indigo-600 text-white shadow-xl shadow-indigo-100 -translate-y-1" 
-                  : "bg-white border border-slate-200 text-slate-500 hover:border-indigo-600 hover:text-indigo-600"
-                }`}
+                  ? "bg-indigo-600 text-white shadow-xl shadow-indigo-100 -translate-y-0.5 sm:-translate-y-1" 
+                  : "bg-white border border-slate-100 text-slate-400 hover:border-indigo-600 hover:text-indigo-600"
+                } ${cat === "All Items" ? "col-span-2 xs:col-span-3 sm:col-span-1" : ""}`}
               >
                 {cat}
               </button>

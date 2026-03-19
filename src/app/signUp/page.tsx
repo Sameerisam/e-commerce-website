@@ -14,14 +14,12 @@ import {
   Eye,
   EyeOff,
   ChevronLeft,
-  CheckCircle2,
-  ShieldCheck,
-  Zap
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
+import { Badge } from "@/components/ui/badge";
 
 type user = {
   name: string;
@@ -48,109 +46,130 @@ export default function SignUpPage() {
       if (error.response?.status === 400) {
         setError('email', { message: 'Email already exists' });
       }
-      console.error("Signup error:", error);
     }
   };
 
   const password = watch("password");
 
   return (
-    <div className="min-h-screen bg-slate-50/50 flex items-center justify-center p-4 pt-24 pb-12 relative overflow-hidden">
-      {/* Abstract background elements for premium feel */}
-      <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_top_right,rgba(99,102,241,0.05),transparent_40%)] -z-10" />
-      <div className="absolute bottom-0 right-0 w-full h-full bg-[radial-gradient(circle_at_bottom_left,rgba(99,102,241,0.03),transparent_40%)] -z-10" />
+    <section className="min-h-screen relative flex items-center justify-center p-4 overflow-hidden mt-[-6rem] pt-24" style={{ background: 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)' }}>
+      {/* Decorative Animated Shapes */}
+      <motion.div
+        animate={{
+          scale: [1, 1.3, 1],
+          rotate: [0, 45, 0],
+          x: [0, 60, 0],
+          y: [0, -40, 0]
+        }}
+        transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
+        className="absolute -top-32 -right-32 w-[500px] h-[500px] bg-indigo-200/20 rounded-full blur-[120px] -z-10"
+      />
+      <motion.div
+        animate={{
+          scale: [1, 1.2, 1],
+          rotate: [0, -90, 0],
+          x: [0, -40, 0],
+          y: [0, 60, 0]
+        }}
+        transition={{ duration: 18, repeat: Infinity, ease: "linear" }}
+        className="absolute -bottom-32 -left-32 w-96 h-96 bg-emerald-200/20 rounded-full blur-[100px] -z-10"
+      />
 
-      <div className="w-full max-w-6xl grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-
-        {/* Left: Branding & Sign Up Benefits */}
-        <div className="hidden lg:flex flex-col space-y-12 pr-12 order-last lg:order-first">
+      <div className="w-full max-w-6xl grid grid-cols-1 lg:grid-cols-2 gap-12 items-center relative z-10">
+        {/* Left: Branding & Benefits */}
+        <div className="hidden lg:flex flex-col space-y-12 pr-12">
           <motion.div
-            initial={{ opacity: 0, x: -20 }}
+            initial={{ opacity: 0, x: -30 }}
             animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8 }}
             className="space-y-6"
           >
-            <Link href="/" className="flex items-center gap-2 mb-12">
-              <div className="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center text-white font-bold text-xl shadow-lg">M</div>
-              <span className="font-black tracking-tight text-slate-900 text-2xl">MYSTORE</span>
-            </Link>
-
-            <h1 className="text-6xl font-black text-slate-900 leading-tight tracking-tighter">
-              Start your <br />
-              <span className="text-indigo-600 uppercase">Premium</span> journey.
-            </h1>
-            <p className="text-xl text-slate-500 max-w-md">
-              Create an account to join 50k+ happy customers and unlock exclusive membership rewards today.
-            </p>
+            <div className="space-y-4">
+              <Badge className="bg-emerald-600/10 text-emerald-600 border-none px-4 py-1 rounded-full font-black uppercase tracking-widest text-[10px]">
+                Membership Registration
+              </Badge>
+              <h1 className="text-7xl font-black text-slate-900 leading-[0.9] tracking-tighter">
+                Joined the <br />
+                <span className="text-emerald-600">Elite</span> Circle.
+              </h1>
+              <p className="text-lg text-slate-500 max-w-md font-medium leading-relaxed">
+                Connect with thousands of premium shoppers and enjoy exclusive benefits tailored for you.
+              </p>
+            </div>
           </motion.div>
 
-          <div className="space-y-4">
+          <div className="space-y-3">
             {[
-              "15% Discount on your first order",
-              "Early access to seasonal sales",
-              "Personalized product recommendations",
-              "Track orders in real-time",
-              "Earn points on every purchase"
+              "Priority Customer Support",
+              "Exclusive seasonal collections",
+              "Next-day delivery on select items",
+              "Seamless returns and exchanges"
             ].map((benefit, i) => (
               <motion.div
                 key={i}
-                initial={{ opacity: 0, x: -10 }}
+                initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: i * 0.1 }}
-                className="flex items-center gap-3 text-slate-500 font-bold uppercase text-[10px] tracking-widest"
+                transition={{ delay: 0.4 + i * 0.1 }}
+                className="flex items-center gap-3 text-slate-400 font-bold uppercase text-[10px] tracking-widest"
               >
-                <CheckCircle2 className="text-emerald-500" size={18} />
+                <div className="w-2 h-2 bg-emerald-500 rounded-full shadow-[0_0_10px_rgba(16,185,129,0.5)]" />
                 <span>{benefit}</span>
               </motion.div>
             ))}
           </div>
 
-          <div className="flex gap-4 p-6 rounded-3xl bg-slate-50 border border-slate-100 max-w-sm">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.8 }}
+            className="flex gap-4 p-8 rounded-[40px] bg-white/50 backdrop-blur-md border border-white/50 shadow-sm max-w-sm"
+          >
             <div className="flex -space-x-3">
               {[...Array(4)].map((_, i) => (
-                <div key={i} className="w-10 h-10 rounded-full border-2 border-white bg-slate-200 overflow-hidden shadow-sm">
-                  <img src={`https://i.pravatar.cc/100?u=${i}`} alt="User" />
+                <div key={i} className="w-10 h-10 rounded-full border-4 border-white bg-slate-200 overflow-hidden shadow-sm">
+                  <img src={`https://i.pravatar.cc/100?u=${i + 10}`} alt="User" />
                 </div>
               ))}
+              <div className="w-10 h-10 rounded-full border-4 border-white bg-indigo-600 flex items-center justify-center text-white text-[10px] font-black">+</div>
             </div>
             <div>
-              <h4 className="font-black text-slate-900 text-sm tracking-tight">Join 50k+ Members</h4>
-              <p className="text-xs text-slate-400 font-medium tracking-tight">Across 12 countries</p>
+              <h4 className="font-black text-slate-900 text-sm tracking-tight">50,000+ Members</h4>
+              <p className="text-[10px] text-slate-400 font-black uppercase tracking-wider">Trusted worldwide</p>
             </div>
-          </div>
+          </motion.div>
         </div>
 
         {/* Right: Signup Form */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="bg-white lg:bg-slate-50 lg:p-12 rounded-[48px] border-none lg:border lg:border-slate-100"
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.5 }}
+          className="bg-white/80 mt-28 backdrop-blur-2xl p-8 md:p-14 rounded-[56px] shadow-2xl shadow-slate-200/50 border border-white"
         >
           <div className="max-w-md mx-auto space-y-8">
-            <div className="text-center lg:text-left space-y-2">
-              <h2 className="text-3xl font-black text-slate-900 tracking-tight">Join MyStore</h2>
-              <p className="text-slate-400 font-bold uppercase text-xs tracking-widest">Create your premium account</p>
+            <div className="space-y-2">
+              <h2 className="text-4xl font-black text-slate-900 tracking-tight">Register</h2>
+              <p className="text-slate-400 font-bold uppercase text-xs tracking-[0.2em]">Become a member today</p>
             </div>
 
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
               <div className="space-y-4">
                 <div className="space-y-2">
-                  <label className="text-sm font-bold text-slate-700 ml-1 uppercase tracking-wider">UserName</label>
+                  <label className="text-xs font-black text-slate-400 uppercase tracking-widest ml-1">Username</label>
                   <div className="relative group">
-                    <UserIcon className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-indigo-600 transition-colors" size={20} />
+                    <UserIcon className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-emerald-600 transition-colors" size={18} />
                     <Input
-                      {...register("name", { required: "Username is required" })}
-                      type="text"
-                      placeholder="Your name"
-                      className="h-14 pl-12 rounded-2xl bg-white border-slate-200 focus-visible:ring-indigo-600"
+                      {...register("name", { required: "Name is required" })}
+                      placeholder="Enter your name"
+                      className="h-16 pl-14 rounded-2xl bg-slate-50 border-none focus-visible:ring-emerald-600 text-sm font-medium"
                     />
                   </div>
-                  {errors.name && <p className="text-xs font-bold text-red-500 ml-1 uppercase">{errors.name.message}</p>}
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-sm font-bold text-slate-700 ml-1 uppercase tracking-wider">Email Address</label>
+                  <label className="text-xs font-black text-slate-400 uppercase tracking-widest ml-1">Email Address</label>
                   <div className="relative group">
-                    <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-indigo-600 transition-colors" size={20} />
+                    <Mail className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-emerald-600 transition-colors" size={18} />
                     <Input
                       {...register("email", {
                         required: "Email is required",
@@ -158,87 +177,79 @@ export default function SignUpPage() {
                       })}
                       type="email"
                       placeholder="name@example.com"
-                      className="h-14 pl-12 rounded-2xl bg-white border-slate-200 focus-visible:ring-indigo-600"
+                      className="h-16 pl-14 rounded-2xl bg-slate-50 border-none focus-visible:ring-emerald-600 text-sm font-medium"
                     />
                   </div>
-                  {errors.email && <p className="text-xs font-bold text-red-500 ml-1 uppercase">{errors.email.message}</p>}
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-4">
                   <div className="space-y-2">
-                    <label className="text-sm font-bold text-slate-700 ml-1 uppercase tracking-wider">Password</label>
+                    <label className="text-xs font-black text-slate-400 uppercase tracking-widest ml-1">Password</label>
                     <div className="relative group">
-                      <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-indigo-600 transition-colors" size={18} />
+                      <Lock className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-emerald-600 transition-colors" size={18} />
                       <Input
-                        {...register("password", {
-                          required: "Password is required",
-                          minLength: { value: 6, message: "Min 6 chars" }
-                        })}
+                        {...register("password", { required: true, minLength: 6 })}
                         type={showPassword ? "text" : "password"}
-                        placeholder="••••••"
-                        className="h-14 pl-11 pr-11 rounded-2xl bg-white border-slate-200 focus-visible:ring-indigo-600 text-sm"
+                        placeholder="••••••••"
+                        className="h-16 pl-14 pr-12 rounded-2xl bg-slate-50 border-none focus-visible:ring-emerald-600 text-sm font-medium"
                       />
-                      <button
-                        type="button"
-                        onClick={() => setShowPassword(!showPassword)}
-                        className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
-                      >
-                        {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                      <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-5 top-1/2 -translate-y-1/2 text-slate-400">
+                        {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                       </button>
                     </div>
                   </div>
-
                   <div className="space-y-2">
-                    <label className="text-sm font-bold text-slate-700 ml-1 uppercase tracking-wider">Confirm</label>
+                    <label className="text-xs font-black text-slate-400 uppercase tracking-widest ml-1">Confirm Password</label>
                     <div className="relative group">
-                      <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-indigo-600 transition-colors" size={18} />
+                      <Lock className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-emerald-600 transition-colors" size={18} />
                       <Input
                         {...register("confirmPassword", {
-                          required: "Confirm your password",
-                          validate: (value) => value === password || "Match fail"
+                          required: true,
+                          validate: val => val === watch('password')
                         })}
                         type={showConfirmPassword ? "text" : "password"}
-                        placeholder="••••••"
-                        className="h-14 pl-11 pr-11 rounded-2xl bg-white border-slate-200 focus-visible:ring-indigo-600 text-sm"
+                        placeholder="••••••••"
+                        className="h-16 pl-14 pr-12 rounded-2xl bg-slate-50 border-none focus-visible:ring-emerald-600 text-sm font-medium"
                       />
-                      <button
-                        type="button"
-                        onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                        className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
-                      >
-                        {showConfirmPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                      <button type="button" onClick={() => setShowConfirmPassword(!showConfirmPassword)} className="absolute right-5 top-1/2 -translate-y-1/2 text-slate-400">
+                        {showConfirmPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                       </button>
                     </div>
                   </div>
                 </div>
-                {(errors.password || errors.confirmPassword) && (
-                  <p className="text-[10px] font-black text-red-500 uppercase tracking-wider text-center">
-                    {errors.password?.message || errors.confirmPassword?.message}
-                  </p>
-                )}
               </div>
 
               <Button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full h-14 rounded-2xl bg-indigo-600 hover:bg-indigo-700 text-lg font-bold shadow-xl shadow-indigo-100 gap-2 transition-all hover:-translate-y-1 active:scale-95 disabled:opacity-70"
+                className="w-full h-16 rounded-2xl bg-emerald-600 hover:bg-slate-900 text-lg font-black shadow-xl shadow-emerald-100 gap-3 transition-all hover:-translate-y-1 active:scale-95 disabled:opacity-70"
               >
                 {isSubmitting ? "Creating..." : <>Create Account <ArrowRight size={20} /></>}
               </Button>
             </form>
 
-            <div className="text-center space-y-4">
-              <p className="text-sm font-medium text-slate-500">
-                Already have an account? <Link href="/login" className="text-indigo-600 font-bold hover:underline">Sign In</Link>
-              </p>
+            <div className="text-center space-y-6">
+              <div className="relative">
+                <div className="absolute inset-0 flex items-center">
+                  <Separator className="w-full bg-slate-100" />
+                </div>
+                <div className="relative flex justify-center text-[10px] uppercase font-black tracking-[0.2em]">
+                  <span className="bg-white px-4 text-slate-300">Ready to join?</span>
+                </div>
+              </div>
 
-              <Link href="/" className="flex items-center justify-center gap-1 text-[10px] font-black text-slate-300 uppercase tracking-[0.2em] hover:text-indigo-600 transition-colors">
-                <ChevronLeft size={16} /> Back to store
-              </Link>
+              <div className="flex flex-col gap-4">
+                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                  Already a member? <Link href="/login" className="text-emerald-600 hover:underline">Sign In Here</Link>
+                </p>
+                <Link href="/" className="flex items-center justify-center gap-2 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] hover:text-emerald-600 transition-all group">
+                  <ChevronLeft size={16} className="group-hover:-translate-x-1 transition-transform" /> Back to store
+                </Link>
+              </div>
             </div>
           </div>
         </motion.div>
       </div>
-    </div>
+    </section>
   );
 }

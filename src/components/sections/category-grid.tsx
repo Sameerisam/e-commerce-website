@@ -127,7 +127,7 @@ export function CategoryGrid() {
 
       {/* CTA Bottom Section */}
       <section className="pb-32 container mx-auto px-6 text-white">
-        <div className="bg-indigo-600 rounded-[48px] p-12 md:p-24 text-center text-white relative overflow-hidden shadow-2xl shadow-indigo-200">
+        <div className="bg-indigo-600 rounded-[48px] p-8 md:p-24 text-center text-white relative overflow-hidden shadow-2xl shadow-indigo-200">
            <div className="absolute top-0 left-0 w-64 h-64 bg-white/5 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2" />
            <div className="absolute bottom-0 right-0 w-64 h-64 bg-slate-900/20 rounded-full blur-3xl translate-x-1/2 translate-y-1/2" />
            
@@ -138,7 +138,7 @@ export function CategoryGrid() {
            <p className="text-indigo-100 text-lg md:text-xl mb-12 max-w-2xl mx-auto relative z-10">
              Join thousands of happy customers and experience the best of modern e-commerce today.
            </p>
-           <Button size="lg" className="h-16 px-12 rounded-2xl font-black text-lg bg-white text-indigo-600 hover:bg-white hover:text-indigo-600 transition-all relative z-10 shadow-xl">
+           <Button href="/products" size="lg" className=" h-12 rounded-2xl font-black text-lg bg-white text-indigo-600 hover:bg-white hover:text-indigo-600 transition-all relative z-10 shadow-xl">
              Explore All Products
            </Button>
         </div>

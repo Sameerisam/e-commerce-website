@@ -79,10 +79,9 @@ export async function POST(req: Request) {
       const token = await new SignJWT({
         email: user.email,
         id: user._id.toString(),
-        role: user.role || "user",
       })
         .setProtectedHeader({ alg: "HS256" })
-        .setExpirationTime("1h")
+        .setExpirationTime("24h")
         .sign(secret);
 
       //  Set token in cookie
@@ -92,7 +91,6 @@ export async function POST(req: Request) {
           token,
           user: {
             name: user.name,
-            role: user.role || "user",
           },
         },
         { status: 200 },
@@ -102,7 +100,7 @@ export async function POST(req: Request) {
         httpOnly: true,
         path: "/",
         secure: process.env.NODE_ENV === "production",
-        maxAge: 60 * 60, // 15 minutes
+        maxAge: 60 * 60 * 24, // 24 hours
       });
 
       return response;

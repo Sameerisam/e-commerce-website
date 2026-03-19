@@ -39,7 +39,8 @@ export default function PaymentMethod() {
   };
 
   return (
-    <div className="bg-slate-50 min-h-screen pt-24 pb-20">
+        <section className="min-h-screen flex items-center overflow-hidden mt-[-6rem] pt-24" style={{ background: 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)' }}>
+
       {/* Loading Overlay */}
       <AnimatePresence>
         {loading && (
@@ -47,7 +48,7 @@ export default function PaymentMethod() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[100] bg-white/80 backdrop-blur-md flex items-center justify-center p-6"
+            className="fixed inset-0 z-[100] bg-white/80 backdrop-blur-md flex items-center justify-center py-20 p-6"
           >
             <div className="text-center space-y-4">
               <div className="w-16 h-16 border-4 border-indigo-600 border-t-transparent rounded-full animate-spin mx-auto" />
@@ -58,18 +59,18 @@ export default function PaymentMethod() {
         )}
       </AnimatePresence>
 
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto px-0 md:px-4 py-20">
         {/* Progress Header */}
         <div className="max-w-4xl mx-auto mb-10 flex items-center justify-between px-4">
           <Link href="/delivery_Information" className="text-slate-400 hover:text-indigo-600 font-bold text-xs uppercase tracking-widest flex items-center gap-2 transition-all">
             <ChevronLeft size={16} /> Shipping Info
           </Link>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-0 md:gap-4">
             <div className="flex items-center gap-2 opacity-40">
               <div className="w-6 h-6 rounded-full bg-slate-900 text-white flex items-center justify-center text-[10px] font-bold">1</div>
               <span className="text-[10px] font-black uppercase tracking-widest text-slate-900">Delivery</span>
             </div>
-            <div className="w-8 h-[1px] bg-slate-200" />
+            <div className="w-6 h-[1px] bg-slate-200" />
             <div className="flex items-center gap-2">
               <div className="w-6 h-6 rounded-full bg-indigo-600 text-white flex items-center justify-center text-[10px] font-bold">2</div>
               <span className="text-[10px] font-black uppercase tracking-widest text-slate-900">Payment</span>
@@ -158,6 +159,6 @@ export default function PaymentMethod() {
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 }

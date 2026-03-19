@@ -4,7 +4,6 @@ type User = {
   email: string;
   token: string;
   name: string;
-  role: string;
   image?: string | null;
 };
 type UserState = {

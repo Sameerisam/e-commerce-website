@@ -1,8 +1,16 @@
+"use client";
+
 import { Star, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { MotionDiv, MotionH1, MotionP } from "../ui/motions";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
+import NextLink from "next/link";
+import Image from "next/image";
 
 export function ProductHero() {
+  const { isLoggedIn } = useSelector((state: RootState) => state.user);
+
   return (
     <section className="relative pt-32 pb-0 overflow-hidden bg-slate-50 mt-[-6rem]" style={{ background: 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)' }}>
       {/* Background Dot Patterns */}
@@ -64,8 +72,10 @@ export function ProductHero() {
           transition={{ delay: 0.4 }}
           className="flex flex-wrap justify-center items-center gap-6 mb-24"
         >
-          <Button href="/signUp" size="lg" className="h-16 px-10 rounded-full bg-indigo-600 text-white hover:text-indigo-600 border-2 border-transparent hover:border-indigo-600 transition-all text-lg font-bold shadow-2xl shadow-indigo-200">
-            Get Started
+          <Button asChild size="lg" className="h-16 px-10 rounded-full bg-indigo-600 text-white hover:text-indigo-600 border-2 border-transparent hover:border-indigo-600 transition-all text-lg font-bold shadow-2xl shadow-indigo-200">
+            <NextLink href={isLoggedIn ? "/delivery_Information" : "/login"}>
+              Get Started
+            </NextLink>
           </Button>
       
         </MotionDiv>
@@ -79,10 +89,12 @@ export function ProductHero() {
             transition={{ duration: 1, ease: "easeOut" }}
             className="relative aspect-[16/10] md:aspect-[21/9] w-full bg-white rounded-t-[300px] md:rounded-t-[500px] overflow-hidden border-[10px] md:border-[20px] border-white shadow-[0_-20px_60px_-15px_rgba(0,0,0,0.1)]"
           >
-            <img 
+            <Image 
               src="/men_cloth.png" 
               alt="Premium Men's Fashion" 
-              className="w-full h-full object-cover"
+              fill
+              className="object-cover"
+              priority
             />
           </MotionDiv>
 
@@ -93,7 +105,7 @@ export function ProductHero() {
             className="absolute -top-12 -left-4 md:-left-24 w-32 h-32 md:w-56 md:h-56 rounded-full border-[6px] md:border-[12px] border-white shadow-2xl overflow-hidden z-20 group"
           >
              <div className="absolute inset-0 bg-indigo-600/10 group-hover:bg-indigo-600/0 transition-colors z-10" />
-             <img src="/hero_jewelry.png" alt="Jewelry" className="w-full h-full object-cover scale-110 group-hover:scale-125 transition-transform duration-700" />
+             <Image src="/hero_jewelry.png" alt="Jewelry" width={224} height={224} className="w-full h-full object-cover scale-110 group-hover:scale-125 transition-transform duration-700" />
              <div className="absolute bottom-4 left-0 right-0 text-center z-20">
                 <span className="bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-[10px] font-black text-indigo-600 uppercase">Jewelry</span>
              </div>
@@ -105,7 +117,7 @@ export function ProductHero() {
             className="absolute top-20 -right-4 md:-right-24 w-28 h-28 md:w-52 md:h-52 rounded-full border-[6px] md:border-[12px] border-white shadow-2xl overflow-hidden z-20 group"
           >
              <div className="absolute inset-0 bg-indigo-600/10 group-hover:bg-indigo-600/0 transition-colors z-10" />
-             <img src="/hero_tech.png" alt="Technology" className="w-full h-full object-cover scale-110 group-hover:scale-125 transition-transform duration-700" />
+             <Image src="/hero_tech.png" alt="Technology" width={208} height={208} className="w-full h-full object-cover scale-110 group-hover:scale-125 transition-transform duration-700" />
              <div className="absolute bottom-4 left-0 right-0 text-center z-20">
                 <span className="bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-[10px] font-black text-indigo-600 uppercase">Gadgets</span>
              </div>
@@ -117,7 +129,7 @@ export function ProductHero() {
             className="absolute bottom-20 -right-16 md:-right-48 w-24 h-24 md:w-44 md:h-44 rounded-full border-[5px] md:border-[10px] border-white shadow-2xl overflow-hidden z-20 hidden lg:block group"
           >
              <div className="absolute inset-0 bg-indigo-600/10 group-hover:bg-indigo-600/0 transition-colors z-10" />
-             <img src="/hero_fashion.png" alt="Fashion" className="w-full h-full object-cover scale-110 group-hover:scale-125 transition-transform duration-700" />
+             <Image src="/hero_fashion.png" alt="Fashion" width={176} height={176} className="w-full h-full object-cover scale-110 group-hover:scale-125 transition-transform duration-700" />
              <div className="absolute bottom-4 left-0 right-0 text-center z-20">
                 <span className="bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-[10px] font-black text-indigo-600 uppercase">Clothing</span>
              </div>

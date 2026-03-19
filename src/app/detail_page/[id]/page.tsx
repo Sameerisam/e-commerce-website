@@ -61,7 +61,6 @@ export default function DetailPageWrapper() {
           setProduct(resp.data);
         })
         .catch((error) => {
-          console.error("Error fetching product:", error);
         })
         .finally(() => {
           setIsLoading(false);
@@ -193,11 +192,11 @@ export default function DetailPageWrapper() {
               </div>
             </motion.div>
 
-            <div className="flex items-baseline gap-4">
-              <span className="text-4xl lg:text-5xl font-black text-indigo-600 tracking-tighter">
+            <div className="flex items-baseline gap-2">
+              <span className="text-3xl lg:text-5xl font-black text-indigo-600 tracking-tighter">
                 ${product.price.toFixed(2)}
               </span>
-              <span className="text-xl text-slate-400 line-through font-medium">
+              <span className="text-md md:text-xl text-slate-400 line-through font-medium">
                 ${(product.price * 1.25).toFixed(2)}
               </span>
               <Badge className="bg-emerald-100 text-emerald-700 rounded-full border-none font-bold ml-2">Save 25% Today</Badge>
@@ -264,7 +263,7 @@ export default function DetailPageWrapper() {
             </div>
 
             <div className="pt-8">
-              <div className="flex gap-8 border-b border-slate-100 mb-6">
+              <div className="flex gap-3 md:gap-8 border-b border-slate-100 mb-6">
                 {["description", "details", "shipping"].map((tab) => (
                   <button
                     key={tab}

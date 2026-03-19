@@ -90,7 +90,9 @@ export default function PaymentPage() {
   const [clientSecret, setClientSecret] = useState<string>("");
   const searchParams = useSearchParams();
 
-  const amount = Number(searchParams.get("amount")) || 0;
+  const amountRaw = searchParams.get("amount") || "0";
+  // Strip any non-numeric characters except decimal point
+  const amount = Number(amountRaw.replace(/[^0-9.]/g, "")) || 0;
   const productId = searchParams.get("productId");
   const quantity = Number(searchParams.get("quantity")) || 1;
 
@@ -110,14 +112,17 @@ export default function PaymentPage() {
           }),
         });
 
+        if (!res.ok) {
+          return;
+        }
+
         const data = await res.json();
+        
         if (data?.clientSecret) {
           setClientSecret(data.clientSecret);
         } else {
-          console.error("No clientSecret returned:", data);
         }
       } catch (err) {
-        console.error("Payment init error:", err);
       }
     })();
   }, [amount, productId, quantity]);

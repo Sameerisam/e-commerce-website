@@ -12,6 +12,8 @@ import {
   X,
   LogOut,
   Home as HomeIcon,
+  Store as MainIcon,
+  ShoppingCart as CartIcon,
   ShoppingBag as BagIcon,
   Search as SearchIcon,
   LayoutGrid,
@@ -55,6 +57,7 @@ export function Navbar() {
   const [mounted, setMounted] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const showSearch = pathname === "/" || pathname === "/products";
   const hideCart = pathname === "/login" || pathname === "/signUp";
@@ -65,6 +68,11 @@ export function Navbar() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  // Close mobile menu on route change
+  useEffect(() => {
+    setIsMobileMenuOpen(false);
+  }, [pathname]);
 
   useEffect(() => {
     if (isLoggedIn && user?.email) {
@@ -87,7 +95,6 @@ export function Navbar() {
       dispatch(logout());
       router.replace("/");
     } catch (error) {
-      console.error("Logout failed:", error);
       router.replace("/");
     }
   };
@@ -104,21 +111,21 @@ export function Navbar() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 py-4 ${isScrolled ? "px-4" : "px-6"
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 py-4 ${isScrolled ? "px-2 sm:px-4" : "px-4 sm:px-6"
         }`}
     >
-      <div className={`container mx-auto max-w-7xl transition-all duration-500 ${isScrolled ? "scale-95" : "scale-100"
+      <div className={`w-full max-w-7xl mx-auto  transition-all duration-500 ${isScrolled ? "scale-95" : "scale-100"
         }`}>
-        <div className={`flex items-center justify-between px-6 py-3 transition-all duration-500 ${isScrolled
-            ? "bg-white/30 backdrop-blur-2xl shadow-[0_8px_32px_rgba(0,0,0,0.12)] border border-white/20 rounded-[2.5rem]"
-            : "bg-white/10 backdrop-blur-xl border border-white/10 rounded-[2rem] shadow-sm"
+        <div className={`flex items-center justify-between px-2 sm:px-6 py-2 sm:py-3 transition-all duration-500 ${isScrolled
+          ? "bg-white/30 backdrop-blur-2xl shadow-[0_8px_32px_rgba(0,0,0,0.12)] border border-white/20 rounded-[2.5rem]"
+          : "bg-white/10 backdrop-blur-xl border border-white/10 rounded-[2rem] shadow-sm"
           }`}>
           {/* Logo */}
-          <NextLink href="/" className={`items-center gap-2 group shrink-0 ${isSearchOpen ? "hidden sm:flex" : "flex"}`}>
-            <div className="w-9 h-9 bg-primary rounded-full flex items-center justify-center text-white shadow-lg group-hover:rotate-12 transition-transform">
-              <BagIcon size={18} strokeWidth={2.5} />
+          <NextLink href="/" className={`items-center gap-1 sm:gap-2 group shrink-0 ${isSearchOpen ? "hidden xs:flex" : "flex"}`}>
+            <div className="w-8 h-8 sm:w-9 sm:h-9 bg-primary rounded-full flex items-center justify-center text-white shadow-lg group-hover:rotate-12 transition-transform">
+              <MainIcon className="w-4 h-4 sm:w-[18px] sm:h-[18px]" strokeWidth={2.5} />
             </div>
-            <span className="text-xl font-black tracking-tighter text-slate-900">
+            <span className="text-base sm:text-xl font-black tracking-tighter text-slate-900">
               MY<span className="text-primary">STORE.</span>
             </span>
           </NextLink>
@@ -182,16 +189,16 @@ export function Navbar() {
           </div>
 
           {/* Actions */}
-          <div className={`items-center gap-3 shrink-0 ${isSearchOpen ? "hidden sm:flex" : "flex"}`}>
+          <div className={`items-center gap-1 sm:gap-3 shrink-0 ${isSearchOpen ? "hidden sm:flex" : "flex"}`}>
             <div className="flex items-center gap-1">
               {showSearch && (
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="rounded-full w-10 h-10 text-slate-700 hover:bg-slate-200/50"
+                  className="rounded-full w-9 h-9 sm:w-10 sm:h-10 text-slate-700 hover:bg-slate-200/50"
                   onClick={() => setIsSearchOpen(!isSearchOpen)}
                 >
-                  <SearchIcon className="w-5 h-5" />
+                  <SearchIcon className="w-4 h-4 sm:w-5 sm:h-5" />
                 </Button>
               )}
 
@@ -233,15 +240,15 @@ export function Navbar() {
               )}
             </div>
 
-            <div className="w-[1px] h-6 bg-slate-200" />
+            <div className="w-[1px] h-5 sm:h-6 bg-slate-200 hidden xs:block" />
 
             {!hideCart && (
               <NextLink href="/cart_Products" className="relative group">
-                <div className="w-10 h-10 bg-slate-900 rounded-full flex items-center justify-center text-white transition-all group-hover:scale-110 group-active:scale-95 shadow-lg">
-                  <BagIcon className="w-4 h-4" strokeWidth={2.5} />
+                <div className="w-8 h-8 sm:w-10 sm:h-10 bg-slate-900 rounded-full flex items-center justify-center text-white transition-all group-hover:scale-110 group-active:scale-95 shadow-lg">
+                  <CartIcon className="w-3.5 h-3.5 sm:w-4 sm:h-4" strokeWidth={2.5} />
                 </div>
                 {cart?.length > 0 && (
-                  <span className="absolute -top-1 -right-1 w-5 h-5 bg-primary text-white text-[10px] font-black rounded-full flex items-center justify-center border-2 border-white shadow-sm animate-in zoom-in">
+                  <span className="absolute -top-1.5 -right-1.5 w-5 h-5 bg-primary text-white text-[9px] font-black rounded-full flex items-center justify-center border-2 border-white shadow-sm animate-in zoom-in">
                     {cart.length}
                   </span>
                 )}
@@ -249,46 +256,55 @@ export function Navbar() {
             )}
 
             {/* Mobile Menu */}
-            <Sheet>
+            <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
               <SheetTrigger asChild>
-                <Button variant="ghost" size="icon" className="lg:hidden rounded-full w-10 h-10 hover:bg-slate-200/50">
-                  <Menu className="w-5 h-5 text-slate-700" />
-                </Button>
+                <button className="lg:hidden rounded-full w-8 h-8 sm:w-10 sm:h-10 hover:bg-slate-200/50 flex items-center justify-center transition-colors">
+                  <Menu className="w-4 h-4 sm:w-5 sm:h-5 text-slate-700" />
+                </button>
               </SheetTrigger>
               <SheetContent side="right" className="w-[300px] p-0 border-none rounded-l-3xl">
                 <div className="flex flex-col h-full bg-slate-50/50 backdrop-blur-xl">
-                  <SheetHeader className="p-8 text-left border-b border-white/20">
-                    <SheetTitle className="flex items-center gap-2">
-                      <div className="w-9 h-9 bg-primary rounded-xl flex items-center justify-center text-white font-black text-xl shadow-lg">M</div>
-                      <span className="font-black tracking-tight text-slate-900">MYSTORE</span>
+                  <SheetHeader className="p-6 text-left border-b border-indigo-50/50">
+                    <SheetTitle className="flex items-center gap-3">
+                      <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center text-white shadow-lg shadow-indigo-200">
+                        <MainIcon className="w-4 h-4" />
+                      </div>
+                      <span className="font-black tracking-tighter text-slate-900 text-lg">MYSTORE.</span>
                     </SheetTitle>
                   </SheetHeader>
-                  <div className="flex flex-col p-8 gap-4 overflow-y-auto">
+                  <div className="flex flex-col p-4 gap-2 overflow-y-auto">
+                    <p className="px-2 pb-1 text-[10px] font-black text-slate-400 uppercase tracking-widest">Navigation</p>
                     {navLinks.map((link) => {
                       const Icon = link.icon;
+                      const isActive = pathname === link.href;
                       return (
                         <NextLink
                           key={link.label}
                           href={link.href}
-                          className="flex items-center gap-4 p-4 rounded-2xl bg-white border border-slate-100 shadow-sm text-slate-700 font-bold transition-all active:scale-95"
+                          className={`flex items-center justify-between p-3.5 rounded-xl border transition-all active:scale-[0.98] ${isActive
+                              ? "bg-indigo-600 border-indigo-600 text-white shadow-lg shadow-indigo-100"
+                              : "bg-white/50 border-slate-100 text-slate-600 hover:bg-white hover:text-indigo-600"
+                            }`}
                         >
-                          <div className="w-10 h-10 bg-slate-50 rounded-xl flex items-center justify-center text-primary">
-                            <Icon size={20} />
+                          <div className="flex items-center gap-3">
+                            <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${isActive ? "bg-white/20" : "bg-slate-50"}`}>
+                              <Icon className="w-4.5 h-4.5" />
+                            </div>
+                            <span className="font-bold text-[13px] tracking-tight">{link.label}</span>
                           </div>
-                          {link.label}
                         </NextLink>
                       );
                     })}
                   </div>
-                  <div className="mt-auto p-8 border-t border-white/20">
+                  <div className="mt-auto p-6 bg-white/40 border-t border-indigo-50/50 backdrop-blur-md">
                     {!isLoggedIn ? (
                       !hideCart && (
-                        <Button asChild className="w-full bg-slate-900 hover:bg-slate-800 rounded-2xl py-7 text-lg font-black shadow-xl shadow-slate-200 transition-all active:scale-95">
+                        <Button asChild className="w-full bg-slate-900 hover:bg-slate-800 rounded-xl py-6 text-sm font-black uppercase tracking-widest shadow-xl shadow-slate-200 transition-all active:scale-95">
                           <NextLink href="/login">Sign In</NextLink>
                         </Button>
                       )
                     ) : (
-                      <Button variant="outline" className="w-full rounded-2xl py-7 text-lg font-bold border-2" onClick={handleLogout}>
+                      <Button variant="outline" className="w-full rounded-xl py-6 text-sm font-black uppercase tracking-widest border-2 hover:bg-slate-50 transition-all active:scale-95" onClick={handleLogout}>
                         Log Out
                       </Button>
                     )}

@@ -34,16 +34,16 @@ export function ProductGrid({ categories }: ProductGridProps) {
               Featured Products
             </h2>
           </div>
-          <div className="flex flex-wrap gap-3">
+          <div className="grid grid-cols-2 xs:grid-cols-3 sm:flex sm:flex-wrap gap-2 sm:gap-3 w-full sm:w-auto">
             {categories.map((category) => (
               <button
                 key={category}
                 onClick={() => setActiveCategory(category)}
-                className={`px-6 py-3 rounded-2xl text-sm font-bold transition-all duration-300 transform active:scale-95 ${
+                className={`px-3 sm:px-6 py-2.5 sm:py-3 rounded-[18px] sm:rounded-2xl text-[11px] sm:text-sm font-black uppercase tracking-wider transition-all duration-300 transform active:scale-95 text-center ${
                   activeCategory === category
-                    ? "bg-indigo-600 text-white shadow-xl shadow-indigo-200 -translate-y-1"
-                    : "bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 hover:border-indigo-200"
-                }`}
+                    ? "bg-indigo-600 text-white shadow-xl shadow-indigo-100 -translate-y-0.5 sm:-translate-y-1"
+                    : "bg-white border border-slate-100 text-slate-500 hover:bg-slate-50 hover:text-indigo-600 hover:border-indigo-100"
+                } ${category === "All Items" ? "col-span-2 xs:col-span-3 sm:col-span-1" : ""}`}
               >
                 {category}
               </button>

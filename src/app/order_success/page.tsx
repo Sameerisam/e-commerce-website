@@ -1,7 +1,7 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import { CheckCircle2, ShoppingBag, ArrowRight, Download, Share2, Star } from "lucide-react";
+import { CheckCircle2, ShoppingCart, ArrowRight, Download, Share2, Star } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { motion, AnimatePresence } from "framer-motion";
@@ -31,28 +31,49 @@ export default function SuccessPage() {
         return;
       }
 
+      // Robust amount parsing
+      const sanitizedAmount = Number(String(amount).replace(/[^0-9.]/g, "")) || 0;
+
       try {
-        await axios.post("/api/orders", {
+        const response = await axios.post("/api/orders", {
           userEmail,
-          items: orderItems,
-          totalAmount: Number(amount),
+          items: orderItems.map(item => ({
+            productId: item.id,
+            title: item.title,
+            price: item.price,
+            quantity: item.quantity || 1,
+            image: item.image
+          })),
+          totalAmount: sanitizedAmount,
           shippingAddress: shippingInfo,
           paymentMethod: method,
           paymentStatus: method === "Online Payment" ? "Completed" : "Pending"
         });
 
         setIsSaved(true);
+        
+        // Clear the cart AFTER success
         dispatch(clearCart());
+        
         setTimeout(() => {
-          persistor.flush().then(() => persistor.persist());
+          persistor.flush().then(() => {
+            persistor.persist();
+          });
         }, 100);
-      } catch (err) {
-        console.error("Order save failed:", err);
+      } catch (err: any) {
+        const errorMsg = err.response?.data?.error || err.message;
+        
+        // If the order save failed but the user already paid online, we should prob still clear the cart 
+        // to prevent THEM from trying again and paying twice.
+        if (method === "Online Payment") {
+           setIsSaved(true);
+           dispatch(clearCart());
+        }
       }
     };
 
     saveOrder();
-  }, [dispatch, items, shippingInfo, userEmail, buyNowItem, amount, method, isSaved]);
+  }, [dispatch, items, shippingInfo, userEmail, buyNowItem, amount, method, isSaved, persistor]);
 
   return (
     <div className="bg-slate-50 min-h-screen pt-24 pb-20 overflow-hidden relative">
@@ -133,7 +154,7 @@ export default function SuccessPage() {
               <div className="flex justify-between items-center bg-slate-50 p-4 rounded-2xl">
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 bg-white rounded-xl shadow-sm flex items-center justify-center text-indigo-600">
-                    <ShoppingBag size={20} />
+                    <ShoppingCart size={20} />
                   </div>
                   <span className="text-sm font-bold text-slate-500 uppercase tracking-wider">Payment Method</span>
                 </div>

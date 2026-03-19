@@ -20,7 +20,7 @@ const staggerContainer = {
 
 export function HeroSection() {
   return (
-    <section className="relative h-[calc(100vh-6rem)] min-h-[700px] flex items-center overflow-hidden bg-slate-50">
+        <section className="min-h-screen flex items-center overflow-hidden mt-[-6rem] pt-24" style={{ background: 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)' }}>
       {/* Abstract Background Shapes */}
       <div className="absolute top-0 right-0 w-1/2 h-full bg-indigo-50/10 rounded-l-[100px] -z-10" />
       
@@ -42,19 +42,19 @@ export function HeroSection() {
           >
             <MotionDiv 
               variants={fadeInUp} 
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/80 backdrop-blur-md border border-indigo-100 text-indigo-700 font-bold text-[10px] md:text-xs uppercase tracking-[0.15em] shadow-sm"
+              className="inline-flex items-center gap-2 px-5 py-2 mt-2 rounded-full bg-white/80 backdrop-blur-md border border-indigo-100 text-indigo-700 font-bold text-[10px] md:text-xs uppercase tracking-[0.15em] shadow-sm"
             >
-              <Sparkles size={14} className="animate-pulse" />
+              <Sparkles size={14} className="animate-pulse " />
               <span>New Collection 2026</span>
             </MotionDiv>
 
             <MotionH1 
               variants={fadeInUp} 
-              className="text-[2.75rem] sm:text-7xl md:text-8xl lg:text-[6rem] xl:text-[7.5rem] font-black text-slate-900 leading-[1] tracking-[-0.04em]"
+              className="text-[2.75rem] sm:text-7xl md:text-8xl lg:text-[5rem] xl:text-[6rem] font-bold text-slate-900 leading-[1] tracking-[-0.04em]"
             >
-              Elegance in <br />
+             Shop smarter<br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-violet-600 to-indigo-800">
-                Every Detail
+                Live better
               </span>
             </MotionH1>
 

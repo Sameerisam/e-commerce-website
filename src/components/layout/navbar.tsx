@@ -247,7 +247,7 @@ export function Navbar() {
                 <div className="w-8 h-8 sm:w-10 sm:h-10 bg-slate-900 rounded-full flex items-center justify-center text-white transition-all group-hover:scale-110 group-active:scale-95 shadow-lg">
                   <CartIcon className="w-3.5 h-3.5 sm:w-4 sm:h-4" strokeWidth={2.5} />
                 </div>
-                {cart?.length > 0 && (
+                {isLoggedIn && cart?.length > 0 && (
                   <span className="absolute -top-1.5 -right-1.5 w-5 h-5 bg-primary text-white text-[9px] font-black rounded-full flex items-center justify-center border-2 border-white shadow-sm animate-in zoom-in">
                     {cart.length}
                   </span>

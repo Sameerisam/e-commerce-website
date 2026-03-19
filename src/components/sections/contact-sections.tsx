@@ -24,8 +24,8 @@ export function ContactSections() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               {[
-                { icon: Mail, title: "Email Us", info: "support@mystore.com", desc: "24/7 Priority Support" },
-                { icon: Phone, title: "Call Us", info: "+1 (555) 000-0000", desc: "Mon-Fri, 9am - 6pm EST" },
+                { icon: Mail, title: "Email Us", info: "[EMAIL_ADDRESS]", desc: "24/7 Priority Support" },
+                { icon: Phone, title: "Call Us", info: "+92 321 710 4112", desc: "Mon-Fri, 9am - 6pm EST" },
                 { icon: Clock, title: "Response Time", info: "Under 1 Hour", desc: "For all support tickets" },
                 { icon: Shield, title: "Secure Data", info: "Encrypted Communication", desc: "Your privacy is our priority" }
               ].map((item, i) => (
@@ -110,7 +110,7 @@ export function ContactSections() {
             {[
               { city: "New York", country: "United States" },
               { city: "London", country: "United Kingdom" },
-              { city: "Singapore", country: "Asia Pacific" }
+              { city: "Lahore", country: "Pakistan" }
             ].map((loc, i) => (
               <div key={i} className="space-y-2">
                 <p className="text-2xl font-black text-slate-900">{loc.city}</p>

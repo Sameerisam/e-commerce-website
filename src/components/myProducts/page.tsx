@@ -4,6 +4,7 @@ import axios from "axios";
 import { useState, useEffect, useMemo } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { ShoppingCart, Eye, Star, ArrowRight, ShoppingBag, Zap, Diamond, Shirt, Heart, Laptop } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -95,7 +96,9 @@ export default function MyProducts({ selectedCategory }: { selectedCategory?: st
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
+  const router = useRouter();
   const searchQuery = useSelector((state: RootState) => state.searching.query);
+  const { isLoggedIn } = useSelector((state: RootState) => state.user);
 
   useEffect(() => {
     setLoading(true);
@@ -143,6 +146,12 @@ export default function MyProducts({ selectedCategory }: { selectedCategory?: st
   const handleAddToCart = (product: Product, e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
+
+    if (!isLoggedIn) {
+      router.push("/login");
+      return;
+    }
+
     dispatch(addCart({
       id: product._id,
       title: product.title,
